@@ -7,9 +7,12 @@ Created on Sun Mar 28 10:53:37 2021
 
 import math
 from math import pi
-
 from Donnees_Conversions import *
 
+#%%###########################################################################
+##      BOULONS
+##############################################################################    
+   
 def get_boulons():
 
     boulons = {
@@ -85,8 +88,8 @@ def get_boulons():
                 }       
         }
 
-
-    
+    # Converion et calculs des informations supplémentaires pour chaque boulons
+    # Impérial vers système internationnal    
     for b in boulons:
         boulons[b]["DnomMM"] = boulons[b]["DnomPO"] * po_mm # Diamètre nominal en mm
         boulons[b]["PasMM"] = po_mm / boulons[b]["PasPO"] # Pas en système international
@@ -97,17 +100,22 @@ def get_boulons():
         boulons[b]["c_SI"] = boulons[b]["kb_N/mm"] / (boulons[b]["kb_N/mm"] + boulons[b]["km_N/mm"]) # Constante de joint
         boulons[b]["DrMM"] = 2 * math.sqrt(boulons[b]["ArMM"]/pi) # Diamètre de la racine
     
-    
+    # Retour des données des boulons
     return boulons
+##############################################################################
+##############################################################################
+
     
-    
-#wee%%###########################################################################
+
+#%%###########################################################################
 ##      GRADE
 ##############################################################################    
-    
+   
+# Grades contenus dans le graphique (Pour éviter la catégorie de grade 2 avec plusieures dimensions) 
 def get_PlotGrades():
     return ["1","2","4","5","7","8"]
 
+# Obtenir les grades et les informations relatives à ces grades
 def get_grades():
     
     # Grade admissible des boulons
@@ -183,9 +191,11 @@ def get_grades():
             }        
     }
 
+    # Conversion des informations en impérial vers le système internationnal
     for g in grades:
         grades[g]["Sp_MPa"] = grades[g]["Sp_kPSI"] * kPSI_MPa
 
-
-    
+    # Retour des informations des grades
     return grades
+##############################################################################
+##############################################################################

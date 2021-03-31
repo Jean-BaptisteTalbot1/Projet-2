@@ -10,7 +10,7 @@ from math import pi
 from sympy import Eq, solve, symbols
 import Boulons_Projet2
 from Donnees_Conversions import *
-from functionsProjet2 import getFi, printPlot, adjustGradeToGet, calculDiametreMin
+from functionsProjet2 import getFi, printPlot, adjustGradeToGet, calculDiametreMin, printPlot_QuestionC1, printPlot_QuestionC2
 
 # Nettoyage de la console
 #print("\033[H\033[J")
@@ -38,51 +38,55 @@ for N in n:
 ##############################################################################
 
 
+facteurs = [1,0.75,1.25]
 
-#%%###########################################################################
-# FS joint
-##############################################################################
-# Forces initiales des différentes tailles de boulons
-Fi = dict()
-# Facteur de sécurité du joint selon la force initiale du boulon et la force étendue sur le nombre de boulon
-FS_joint = dict()
-FS_boulon = dict()
-
-# Parcourt des grades
-for g in plotGrades:    
-    
-    print(g)
-    # Création de la première dimension des dictionnaires   
-    Fi[g]           = dict()
-    FS_joint[g]     = dict()    
-    FS_boulon[g]    = dict()
-    
-    # Parcourt des boulons
-    for b in boulons:
-    
-        print(b)
-        FS_joint[g][b]  = dict()
-        FS_boulon[g][N] = dict()
-        Fi[g][b]        = dict()
+for facteur in facteurs:
+    #%%###########################################################################
+    # FS joint
+    ##############################################################################
+    # Forces initiales des différentes tailles de boulons
+    Fi = dict()
+    # Facteur de sécurité du joint selon la force initiale du boulon et la force étendue sur le nombre de boulon
+    FS_joint = dict()
+    FS_boulon = dict()
+ 
+    # Parcourt des grades
+    for g in plotGrades:    
         
-        gradeToGet = adjustGradeToGet(g,b)
+        # Création de la première dimension des dictionnaires   
+        Fi[g]           = dict()
+        FS_joint[g]     = dict()    
+        FS_boulon[g]    = dict()
         
-        Fi[g][b] = getFi(gradeToGet,b,"AtMM","DrMM","Sp_MPa","DnomMM")
+        # Parcourt des boulons
+        for b in boulons:
+        
+            FS_joint[g][b]  = dict()
+            FS_boulon[g][N] = dict()
+            Fi[g][b]        = dict()
             
-        # Parcourt des nombres de boulons
-        for N in n:
-            print(N)
-            FS_joint[g][b][N] = Fi[g][b] / (Fa_Newton[N] * (1-boulons[b]["c_SI"]))
-##############################################################################
+            gradeToGet = adjustGradeToGet(g,b)
+            
+            Fi[g][b] = getFi(gradeToGet,b,"AtMM","DrMM","Sp_MPa","DnomMM", facteur)
+                
+            # Parcourt des nombres de boulons
+            for N in n:
+                FS_joint[g][b][N] = Fi[g][b] / (Fa_Newton[N] * (1-boulons[b]["c_SI"]))
+    ##############################################################################
+    
+    
+    
+    #%%###########################################################################
+    # Traçage des graphiques
+    ##############################################################################
+    seuils = [2,3]
+    
+    for seuil in seuils:
+        printPlot(calculDiametreMin(seuil, FS_joint, FS_boulon, Fi, Fa_Newton), seuil, FS_joint, FS_boulon, facteur)
+    
+    printPlot_QuestionC1(calculDiametreMin(2, FS_joint, FS_boulon, Fi, Fa_Newton), 2, FS_joint, FS_boulon, facteur)
+    printPlot_QuestionC2(calculDiametreMin(3, FS_joint, FS_boulon, Fi, Fa_Newton), 3, FS_joint, FS_boulon, facteur)
+    ##############################################################################
 
 
 
-#%%###########################################################################
-# Traçage des graphiques
-##############################################################################
-seuils = [2,3]
-
-for seuil in seuils:
-    printPlot(calculDiametreMin(seuil, FS_joint, FS_boulon, Fi, Fa_Newton), seuil, FS_joint, FS_boulon)
-
-##############################################################################
