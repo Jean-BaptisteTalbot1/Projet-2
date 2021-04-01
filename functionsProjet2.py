@@ -193,61 +193,41 @@ def printPlot_QuestionC2(Dmin, seuil, FS_joint, FS_boulon, facteur):
     
     
     
-def printPlot_QuestionD(Dmin, seuil, FS_joint, FS_boulon, facteur):
-    ##########################################################################    
-    # Graphique du diamètre minimal
-    ##########################################################################
-    YYYY = dict()
-    XXXXX = dict()
-    for g in plotGrades:
-        # Seconde dimension du dictionnaire de coordonnées du graphique
-        XXXX[g] = list()
-        YYYY[g] = list()
-        for d in Dmin[g]:
-            XXXX[g].append(d)
-            YYYY[g].append(Dmin[g][d])
-    plt.title("Comparaison du diamètre minimal pour le grade " + str(g) + " avec un FS du joint >= " + str(seuil) + " - FC " + str(int(100*facteur)) + "%")
+def printPlot_QuestionD(XD, YD, XXD, YYD):
+
+    plt.title("Comparaison du diamètre minimal pour le grade 5 " + " avec un FS du joint >= 2" + " - FC ")
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
     plt.xlabel("Nombre de boulons")
-    plt.ylabel("Diamiètre minimal (po)")
-    plt.xticks(XXXX[g],XXXX[g])
-    plt.vlines(XXXX[g],0.4,1, colors='k', linestyles='dashed')
-    for g in plotGrades:
-        plt.plot(XXXX[g],YYYY[g],label="Grade : " + str(g))
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+    plt.ylabel("Diamiètre minimal (po)")    
+    plt.xticks(XD[1],XD[1])
+    
+    for X in XD: 
+        plt.vlines(XD[X],0.4,1, colors='k', linestyles='dashed')    
+        plt.plot(XD[X],YD[X],label="Incertitude : " + str(X))
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+    
     plt.rcParams['figure.figsize'] = l, h
     plt.tight_layout()
-    plt.savefig(path + '\QD1_S_' + str(seuil) + "_F_" + str(facteur) + e, dpi=q,)
+    plt.savefig(path + '\QD1_S_2' + "_F_" + str(X) + e, dpi=q,)
     plt.show()
     ##########################################################################
     
     
     
     
-    
-    ##########################################################################
-    # Graphique du FS selon le diamètre minimal
-    ##########################################################################
-    for f in FS_boulon:    
-        FS_boulon[f] = OrderedDict(sorted(FS_boulon[f].items()))
-    YYY = dict()
-    XXX = dict()
-    for g in plotGrades:
-        XXX[g] = list()
-        YYY[g] = list()
-        for f in FS_boulon[g]:
-            XXX[g].append(f)
-            YYY[g].append(FS_boulon[g][f])
-    plt.title("Comparaison du FS du boulon pour le grade " + str(g) + " avec un FS du joint >=" + str(seuil) + " - FC " + str(int(100*facteur)) + "%")
-    plt.xlabel("Nombre de boulons")
-    plt.ylabel("FS boulons du diamètre minimal")
-    plt.xticks(XXX[g],XXX[g])
-    plt.vlines(XXX[g],1.32,1.47, colors='k', linestyles='dashed')
-    for g in plotGrades:       
-        plt.plot(XXX[g],YYY[g],label="Facteur : " + str(facteur))
+    plt.title("Comparaison du diamètre minimal pour le grade 5 " + " avec un FS du joint >= 2 " + " - FC ")
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+    plt.xlabel("Nombre de boulons")
+    plt.ylabel("Diamiètre minimal (po)")    
+    plt.xticks(XD[1],XD[1])
+    
+    for X in XXD: 
+        plt.vlines(XXD[X],1.2,1.6, colors='k', linestyles='dashed')    
+        plt.plot(XXD[X],YYD[X],label="Incertitude : " + str(X))
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
+    
     plt.rcParams['figure.figsize'] = l, h
     plt.tight_layout()
-    plt.savefig(path + '\QD2_S_' + str(seuil) + "_F_" + str(facteur) + e, dpi=q,)
+    plt.savefig(path + '\QD2_S_2' + "_F_" + str(X) + e, dpi=q,)
     plt.show()
     ##########################################################################

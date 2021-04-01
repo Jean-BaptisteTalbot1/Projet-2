@@ -10,7 +10,7 @@ from math import pi
 from sympy import Eq, solve, symbols
 import Boulons_Projet2
 from Donnees_Conversions import *
-from functionsProjet2 import getFi, printPlot, adjustGradeToGet, calculDiametreMin, printPlot_QuestionC1, printPlot_QuestionC2
+from functionsProjet2 import getFi, printPlot, adjustGradeToGet, calculDiametreMin, printPlot_QuestionC1, printPlot_QuestionC2, printPlot_QuestionD
 
 # Nettoyage de la console
 #print("\033[H\033[J")
@@ -38,9 +38,20 @@ for N in n:
 ##############################################################################
 
 
-facteurs = [1,0.75,1.25]
+facteurs = [0.75,1,1.25]
+
+XD = dict()
+YD = dict()
+XXD = dict()
+YYD = dict()
 
 for facteur in facteurs:
+    
+    XD[facteur] = list()
+    XXD[facteur] = list()
+    
+    YD[facteur] = list()
+    YYD[facteur] = list()
     #%%###########################################################################
     # FS joint
     ##############################################################################
@@ -74,6 +85,18 @@ for facteur in facteurs:
                 FS_joint[g][b][N] = Fi[g][b] / (Fa_Newton[N] * (1-boulons[b]["c_SI"]))
     ##############################################################################
     
+    DminD = dict()
+    
+    XD[facteur] = n
+    DminD = calculDiametreMin(2, FS_joint, FS_boulon, Fi, Fa_Newton)
+    
+    for d in DminD["5"]:    
+        YD[facteur].append(DminD["5"][d])
+        
+
+    XXD[facteur] = n
+    for fs in FS_boulon["5"]:    
+        YYD[facteur].append(FS_boulon["5"][fs])
     
     
     #%%###########################################################################
@@ -87,6 +110,8 @@ for facteur in facteurs:
     printPlot_QuestionC1(calculDiametreMin(2, FS_joint, FS_boulon, Fi, Fa_Newton), 2, FS_joint, FS_boulon, facteur)
     printPlot_QuestionC2(calculDiametreMin(3, FS_joint, FS_boulon, Fi, Fa_Newton), 3, FS_joint, FS_boulon, facteur)
     ##############################################################################
+    
+printPlot_QuestionD(XD,YD,XXD,YYD)
 
 
 
