@@ -12,22 +12,27 @@ po_mm = 25.4            # Pouce en mm
 po2_mm2 = 645.1600      # Pouce carré en mm carré
 kPSI_MPa = 6.89476      # Kilo PSI en mégaPascals
 
-
 L_mm = 2 * po_mm # mm
 Eb = 207*(10**3)
 
-
 # Facteur de couple pour relation entre couple appliqué et force initiale 
-K   = 0.2 
+k   = 0.2
 Pi  = 10 # bar
 
 Pi_Pa = Pi * bar_Pa # Pa
 
-
 FS_serrage = 1.1
-
 
 D = 1 # mètres
 
 # Nombre admissible de boulons
 n = [24,28,32,36,40,44,48]
+
+e=".png"
+q=100
+
+l = 10
+h = 5
+
+path = "D:\OneDrive - ETS\ETS\9 - ETS - 2021 - Hiver\GPA772 - Conception de machines\Projet - Shared\Projet 2\Graphes"
+    
